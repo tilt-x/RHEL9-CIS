@@ -84,10 +84,14 @@ logchange 0.5
 # This directive tells chrony to regulate the real-time clock and tells it
 # Where to store related data.  It may not work on some newer motherboards
 # that use the HPET real-time clock.  It requires enhanced real-time
-# support in the kernel.  I've commented it out because with certain
-# combinations of motherboard and kernel it is reported to cause lockups.
+# support in the kernel.  Disabled by default due to reported lockups with
+# certain combinations of motherboard and kernel.
 
-# rtcfile /var/lib/chrony/chrony.rtc
+{% if rhel9cis_chrony_server_rtcfile_enable %}
+rtcfile {{ rhel9cis_chrony_server_rtcfile_path }}
+{% else %}
+# rtcfile {{ rhel9cis_chrony_server_rtcfile_path }}
+{% endif %}
 
 # If the last line of this file reads 'rtconutc' chrony will assume that
 # the CMOS clock is on UTC (GMT).  If it reads '# rtconutc' or is absent

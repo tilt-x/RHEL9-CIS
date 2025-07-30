@@ -3,5 +3,9 @@
 
 os_gpg_key_pubkey_name: gpg-pubkey-b86b3716-61e69f29
 os_gpg_key_pubkey_content: "AlmaLinux OS 9 <packager@almalinux.org> b86b3716"
-# disable repo_gpgcheck due to OS default repos
+
+# Repository GPG checking is disabled for AlmaLinux
+# This is due to the OS default repositories not having proper GPG signatures configured
+# CIS 1.2.4 requires repo_gpgcheck=1, but this conflicts with AlmaLinux default repos
+# Set to true only if you have properly configured GPG keys for all repositories
 rhel9cis_rule_enable_repogpg: false

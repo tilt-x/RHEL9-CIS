@@ -374,7 +374,8 @@ rhel9cis_rule_6_2_16: true
 #### 1.1.2
 # These settings go into the /etc/fstab file for the /tmp mount settings
 # The value must contain nosuid,nodev,noexec to conform to CIS standards
-# rhel9cis_tmp_tmpfs_settings: "defaults,rw,nosuid,nodev,noexec,relatime 0 0"
+# Uncomment and modify as needed for your environment
+rhel9cis_tmp_tmpfs_settings: "defaults,rw,nosuid,nodev,noexec,relatime 0 0"
 # If set true uses the tmp.mount service else using fstab configuration
 rhel9cis_tmp_svc: false
 
@@ -452,6 +453,9 @@ rhel9cis_chrony_server_options: "minpoll 8"
 rhel9cis_chrony_server_rtcsync: false
 rhel9cis_chrony_server_makestep: "1.0 3"
 rhel9cis_chrony_server_minsources: 2
+# Enable rtcfile directive (disabled by default due to potential lockup issues on some motherboards/kernels)
+rhel9cis_chrony_server_rtcfile_enable: false
+rhel9cis_chrony_server_rtcfile_path: "/var/lib/chrony/chrony.rtc"
 
 ### 2.2 Special Purposes
 ##### Service configuration booleans set true to keep service
@@ -596,9 +600,19 @@ rhel9cis_sshd:
     clientalivecountmax: 0
     clientaliveinterval: 900
     logingracetime: 60
-    # WARNING: make sure you understand the precedence when working with these values!!
+    # SSH Access Control Configuration
+    # IMPORTANT: These directives are processed in the order: DenyUsers, AllowUsers, DenyGroups, AllowGroups
+    # First match wins, so be careful with precedence!
+    #
+    # Examples:
+    # allowusers: "user1 user2 admin@10.0.0.0/8"
+    # allowgroups: "wheel sysadmin"
+    # denyusers: "guest test"
+    # denygroups: "games"
+    #
+    # Uncomment and configure as needed for your environment:
     # allowusers:
-    # allowgroups: systems dba
+    # allowgroups:
     # denyusers:
     # denygroups:
 

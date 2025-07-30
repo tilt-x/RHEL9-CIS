@@ -121,7 +121,7 @@
                 inventory: .github/workflows/github_linux_IaC/hosts.yml
                 galaxy_file: collections/requirements.yml
                 private_key: ${{ secrets.SSH_PRV_KEY }}
-        #          verbose: 3
+                verbose: ${{ env.ENABLE_DEBUG == 'true' && 3 || 0 }}
               env:
                 ANSIBLE_HOST_KEY_CHECKING: "false"
                 ANSIBLE_DEPRECATION_WARNINGS: "false"
